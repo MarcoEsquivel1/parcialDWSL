@@ -1,7 +1,5 @@
     <?php
-        require_once ("controllers/usersController.php");
-        $obj = new UsersController();
-        $rows =  $obj->index();
+        header('location:views/index.php');
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,17 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Usuarios</h1>
-    <br>
-
-    <?php
-        
-        foreach($rows as $registro){
-            echo '<h1>'. $registro['id_user']. "-" .$registro['nombre'] . '</br>';
-        }
-
-    ?>
-
+    <h1>Inicio</h1>
 
 </body>
 </html>

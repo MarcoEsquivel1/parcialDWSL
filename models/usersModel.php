@@ -4,7 +4,7 @@
         private $users;
 
         public function __construct(){
-            require_once('models/Conn.php');
+            require_once('../models/Conn.php');
             $this->db=Conn::Connection();
         }
 
