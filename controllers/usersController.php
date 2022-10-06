@@ -1,11 +1,16 @@
 <?php
+    class UsersController{
+        private $model;
+        public function __construct()
+        {
+            require_once("models/usersModel.php");
+            $this->model = new UsersModel();
+        }
 
-    require_once('models/usersModel.php');
+        public function index(){
+            return ($this->model->index()) ? $this->model->index() : false;
+        }
+    }
     
-
-    $users= new UsersModel();
-    $matrizUsers=$users->getUsers();
-
-    require_once('views/usersView.php');
 
 ?>

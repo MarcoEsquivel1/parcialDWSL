@@ -1,3 +1,8 @@
+    <?php
+        require_once ("controllers/usersController.php");
+        $obj = new UsersController();
+        $rows =  $obj->index();
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +14,14 @@
 <body>
     <h1>Usuarios</h1>
     <br>
+
     <?php
-        require_once ("controllers/usersController.php");
+        
+        foreach($rows as $registro){
+            echo '<h1>'. $registro['id_user']. "-" .$registro['nombre'] . '</br>';
+        }
+
     ?>
-
-
 
 
 </body>
