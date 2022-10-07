@@ -1,7 +1,11 @@
 <?php
   require_once("../views/layout/header.php");
   require_once ("../controllers/usersController.php");
-
+  if(isset($_SESSION['session']) != true || $_SESSION['session'] != true){
+    header('location:../index.php');
+  }elseif(isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] != 1){
+    header('location:index.php');
+  }
   if (isset($_POST['ok'])) {
     $obj=new UsersController();
     $obj->add($_POST['nombre'], $_POST['correo'], $_POST['password'], $_POST['direccion']);

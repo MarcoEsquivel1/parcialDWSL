@@ -3,7 +3,8 @@
         private $model;
         public function __construct()
         {
-            require_once("../models/usersModel.php");
+            require_once(realpath($_SERVER["DOCUMENT_ROOT"]) .'\\parcialDWSL\\models\\usersModel.php');
+            /* require_once("../models/usersModel.php"); */
             $this->model = new UsersModel();
         }
 
@@ -42,6 +43,14 @@
 
         public function delete($id){
             return ($this->model->delete($id)) ? header("Location:../views/index.php") : header("Location:../views/index.php") ;
+        }
+
+        public function auth($correo, $password){
+            $corr = stripcslashes($correo);
+            $corr = pg_escape_string($corr);
+            $pass = stripcslashes($password);
+            $pass = pg_escape_string($pass);
+            return ($this->model->auth($corr, $pass) != false) ? $this->model->show($this->model->auth($corr, $pass)) : 0 ;
         }
     }
     

@@ -4,7 +4,7 @@
         private $users;
 
         public function __construct(){
-            require_once('../models/Conn.php');
+            require_once('Conn.php');
             $this->db=Conn::Connection();
         }
 
@@ -23,12 +23,12 @@
             $stament->bindParam(":password",$password);
             $stament->bindParam(":direccion",$direccion);
             $stament->bindParam(":fecha_alt",$date);
-            $stament->bindParam(":id_rol",$id);
+            $stament->bindParam(":id_rol",$id);$
             return ($stament->execute()) ? $this->db->lastInsertId() : false ;
         }
 
         public function show($id){
-            $stament = $this->db->prepare("SELECT id_user, nombre, correo,  password, direccion FROM usuarios where id_user = :id limit 1");
+            $stament = $this->db->prepare("SELECT id_user, nombre, correo,  password, direccion, id_rol FROM usuarios where id_user = :id limit 1");
             $stament->bindParam(":id",$id);
             return ($stament->execute()) ? $stament->fetch() : false ;
         }
@@ -47,6 +47,21 @@
             $stament = $this->db->prepare("DELETE FROM usuarios WHERE id_user = :id");
             $stament->bindParam(":id",$id);
             return ($stament->execute()) ? true : false;
+        }
+
+        public function auth($email, $password){
+            $stament = $this->db->prepare("SELECT * FROM usuarios WHERE correo = :correo AND password = :password limit 1");
+            $stament->bindParam(":correo",$email);
+            $stament->bindParam(":password",$password);
+            $can = false;
+            if($stament->execute()){
+                $obj = $stament->fetch();
+                if($obj != false){
+                    $id = $obj['id_user'];
+                    $can = true;
+                }
+            }
+            return ($can) ? $id : false;
         }
     }
     

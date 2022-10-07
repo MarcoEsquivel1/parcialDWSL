@@ -3,12 +3,18 @@
     require_once("../controllers/usersController.php");
     $obj = new UsersController();
     $rows =  $obj->index();
-
+    /* session_start(); */
+    if(isset($_SESSION['session']) != true || $_SESSION['session'] != true){
+        header('location:../index.php');
+    }
     if (isset($_POST['ok2'])) {
         if(isset($_POST['eliminar'])){
             $deletes = $_POST['eliminar'];
             foreach($deletes as $del){
                 $obj->delete($del);
+            }
+            if(isset($_SESSION['id_rol']) && $_SESSION['id_rol'] != 1){
+                header('location:logout.php');
             }
         }
     }
@@ -30,13 +36,36 @@
 
             <?php foreach ($rows as $registro) : ?>
                 <tr>
-                    <td><input type=checkbox name='eliminar[]' value='<?php echo $registro['id_user'] ?>' title='<?php echo $registro['id_user'] ?>'></td>
+                    <td>
+                        <?php if((isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] != 1) &&
+                                            (isset($_SESSION['id_user']) != true || $_SESSION['id_user'] != $registro['id_user'])):?> 
+                            <input disabled type=checkbox name='eliminar[]' value='<?php echo $registro['id_user'] ?>' title='<?php echo $registro['id_user'] ?>'>
+                        <?php elseif((isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] != 1) &&
+                                            (isset($_SESSION['id_user']) != true || $_SESSION['id_user'] == $registro['id_user'])): ?>
+                            <input  type=checkbox name='eliminar[]' value='<?php echo $registro['id_user'] ?>' title='<?php echo $registro['id_user'] ?>'>  
+                        <?php endif ?>
+                        <?php if((isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] == 1) &&
+                                            (isset($_SESSION['id_user']) != true || $_SESSION['id_user'] == $registro['id_user'])):?> 
+                            <input disabled type=checkbox name='eliminar[]' value='<?php echo $registro['id_user'] ?>' title='<?php echo $registro['id_user'] ?>'>
+                        <?php elseif((isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] == 1) &&
+                                            (isset($_SESSION['id_user']) != true || $_SESSION['id_user'] != $registro['id_user'])): ?>
+                            <input  type=checkbox name='eliminar[]' value='<?php echo $registro['id_user'] ?>' title='<?php echo $registro['id_user'] ?>'>  
+                        <?php endif ?>
+                        
+                    </td>
                     <td><?php echo $registro['id_user'] ?></td>
                     <td><?php echo $registro['nombre'] ?></td>
                     <td><?php echo $registro['correo'] ?></td>
                     <td><?php echo $registro['fecha_alt'] ?></td>
                     <td><?php echo $registro['direccion'] ?></td>
-                    <td><a href='../views/updateUsuario.php?id=<?php echo $registro['id_user'] ?>'><img width='32px' src='../public/images/editar.png' /></td>
+                    <td>
+                        <?php if((isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] != 1) &&
+                                            (isset($_SESSION['id_user']) != true || $_SESSION['id_user'] != $registro['id_user'])):?> 
+                            <img width='32px' src='../public/images/readonly.png' />
+                        <?php else: ?>                
+                            <a href='../views/updateUsuario.php?id=<?php echo $registro['id_user'] ?>'><img width='32px' src='../public/images/editar.png' />
+                        <?php endif ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

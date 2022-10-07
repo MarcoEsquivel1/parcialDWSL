@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -12,14 +15,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="../views/crearUsuario.php">Crear usuarios</a>
+                            <a class="nav-link <?php if(isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] != 1){ echo " ". "disabled";}?>" href="../views/crearUsuario.php">Crear usuarios</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="empleados.jsp">Administrar empleados</a>
-                        </li> -->
+                        <li class="nav-item ">
+                            
+                        </li>
                     </ul>
+                    <span class="navbar-text">
+                        <a class="nav-link" href="../views/logout.php">Cerrar Sesion</a>
+                    </span>
                 </div>
             </div>
         </nav>

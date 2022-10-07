@@ -1,13 +1,20 @@
 <?php
 require_once("../views/layout/header.php");
 require_once("../controllers/usersController.php");
-
+if(isset($_SESSION['session']) != true || $_SESSION['session'] != true){
+    header('location:../index.php');
+}elseif(isset($_SESSION['id_rol']) != true || $_SESSION['id_rol'] != 1){
+    if(isset($_SESSION['id_user']) != true || $_SESSION['id_user'] != $_GET['id']){        
+        header('location:index.php');
+    }
+}
 $obj = new UsersController();
 $data = $obj->show($_GET['id']);
 if (isset($_POST['ok'])) {
     $obj->update($_GET['id'], $_POST['nombre'], $_POST['correo'], $_POST['password'], $_POST['direccion']);
 }
 ?>
+
 
 <h2>Crear usuario</h2>
 <div class="form mb-3">
