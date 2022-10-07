@@ -23,7 +23,7 @@
             $stament->bindParam(":password",$password);
             $stament->bindParam(":direccion",$direccion);
             $stament->bindParam(":fecha_alt",$date);
-            $stament->bindParam(":id_rol",$id);$
+            $stament->bindParam(":id_rol",$id);
             return ($stament->execute()) ? $this->db->lastInsertId() : false ;
         }
 
