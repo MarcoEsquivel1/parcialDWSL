@@ -22,7 +22,7 @@
             $dire = stripcslashes($direccion);
             $dire = pg_escape_string($dire);
             $id = $this->model->insert($nom, $corr, $pass, $dire);
-            return ($id!=false) ? header("Location:../views/index.php") : header("Location:../views/crearUsuario.php");
+            return ($id!=false) ? header("Location:../views/index.php") : false;
         }
 
         public function show($id){

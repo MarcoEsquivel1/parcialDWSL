@@ -8,7 +8,10 @@
   }
   if (isset($_POST['ok'])) {
     $obj=new UsersController();
-    $obj->add($_POST['nombre'], $_POST['correo'], $_POST['password'], $_POST['direccion']);
+    $e=$obj->add($_POST['nombre'], $_POST['correo'], $_POST['password'], $_POST['direccion']);
+    if($e==false){
+      $error=true;
+    }
   }
 ?>
 
@@ -36,6 +39,9 @@
             <div class="form-floating mb-3 ">
                 <textarea class="form-control" name="direccion" id="direccion" rows="5" placeholder="#"></textarea>
               <label for="direccion">Direccion</label>
+              <?php if(isset($error)){
+                        echo "<p class='text-danger mt-3'>Error, el correo esta en uso</p>";
+                    } ?>    
             </div>
 
             <button type="submit" name="ok" class="btn btn-primary">Crear</button>

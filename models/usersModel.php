@@ -24,7 +24,14 @@
             $stament->bindParam(":direccion",$direccion);
             $stament->bindParam(":fecha_alt",$date);
             $stament->bindParam(":id_rol",$id);
-            return ($stament->execute()) ? $this->db->lastInsertId() : false ;
+            $can = false;
+            try{
+                $stament->execute();
+                $can = true;
+            } catch (PDOException $e) {
+                $can = false;
+            }
+            return ($can) ? $this->db->lastInsertId() : false ;
         }
 
         public function show($id){
