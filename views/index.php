@@ -95,6 +95,7 @@
         </div>
     </div>
 </form>
+<p>Puntaje reCAPTCHA: <?php print($_SESSION['response']); ?></p>
 <?php
 require_once("../views/layout/footer.php");
 ?>
