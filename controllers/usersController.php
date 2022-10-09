@@ -1,9 +1,13 @@
 <?php
     class UsersController{
         private $model;
+        private $pdf;
+        
         public function __construct()
         {
             require_once(realpath($_SERVER["DOCUMENT_ROOT"]) .'\\parcialDWSL\\models\\usersModel.php');
+            require_once(realpath($_SERVER["DOCUMENT_ROOT"]) .'\\parcialDWSL\\models\\pdf.php');
+            
             /* require_once("../models/usersModel.php"); */
             $this->model = new UsersModel();
         }
@@ -52,6 +56,28 @@
             $pass = pg_escape_string($pass);
             return ($this->model->auth($corr, $pass) != false) ? $this->model->show($this->model->auth($corr, $pass)) : 0 ;
         }
+
+        public function genPDF($rows){
+            ob_start();
+            $this->pdf = new PDF();
+
+            $this->pdf->AliasNbPages();
+            $this->pdf->SetAutoPageBreak(true, 10);
+            $this->pdf->AddPage('L', 'Letter');
+            $this->pdf->SetTitle(utf8_decode("Reporte Usuarios"));
+            $this->pdf->SetFont('times', '', 11);
+
+            $header=["Nº usuario","Nombre","Correo","Fecha de alta","Direccion"];
+            $data=array();
+            for ($i=0; $i < count($rows); $i++) { 
+                $data[$i]=array($rows[$i]['id_user'],$rows[$i]['nombre'],$rows[$i]['correo'],$rows[$i]['fecha_alt'],$rows[$i]['direccion']);
+            }
+
+            $this->pdf->createTable($header,$data);
+            $this->pdf->Output('', 'ReporteUsuarios.pdf');
+            ob_end_flush(); 
+        }
+
     }
     
 

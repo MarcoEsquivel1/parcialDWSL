@@ -9,7 +9,7 @@
         }
 
         public function index(){
-            $stament=$this->db->query('SELECT id_user, nombre, correo, fecha_alt, direccion FROM usuarios');
+            $stament=$this->db->query('SELECT id_user, nombre, correo, fecha_alt, direccion FROM usuarios ORDER BY id_user');
             return ($stament->execute()) ? $stament->fetchAll() : false;
         }
 

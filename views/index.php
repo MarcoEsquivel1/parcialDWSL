@@ -19,6 +19,7 @@
         }
     }
 ?>
+    <a target="_blank" class="text-success text-decoration-none" href='../views/genPDF.php'><h3>Generar pdf<img class="mx-2" width='32px' src='../public/images/pdf.png'/></h3></a>
 <form method="post">
     <table class="table">
         <thead class="thead-dark">
